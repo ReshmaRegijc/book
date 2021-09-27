@@ -1,4 +1,4 @@
-from myproject import db
+from book import db
 
 class Book(db.Model):
 

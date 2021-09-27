@@ -1,7 +1,7 @@
-from myproject import app
-from myproject import db
-from myproject.models import Book
-from myproject.forms import *
+from book import app
+from book import db
+from book.models import Book
+from book.forms import *
 from flask import render_template, redirect,url_for
 
 
