@@ -15,4 +15,4 @@ class Book(db.Model):
         self.price = price
 
     def __repr__(self):
-        return (f"Book Name: {self.name} Author: {self.author} Price: {self.price}")
+        return (f"{self.id} Name:{self.name}; Author:{self.author}; Price:{self.price}")
