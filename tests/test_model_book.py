@@ -6,12 +6,12 @@ def test_Book():
     newbook = Book('Flask','ABC',500)
 
     db.session.add(newbook)
-    x = db.session.commit()
-
-    books = Book.query.all()
-    for book in books:
-        print(book)
+    db.session.commit()
 
 
-    print(x)
+    db.session.delete(newbook)
+    db.session.commit()
+    
+
+
     assert (1==1)
