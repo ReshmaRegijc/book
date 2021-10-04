@@ -1,8 +1,9 @@
+from flask_login.utils import login_required
 from book import app
 from book import db
-from book.models import Book
+from book.models import Book, User
 from book.forms import *
-from flask import render_template, redirect,url_for
+from flask import render_template, redirect,url_for, request, flash, abort
 import os
 
 
@@ -13,6 +14,7 @@ def index():
 
 
 @app.route('/add', methods=['GET','POST'])
+@login_required
 def add():
 
     form = AddForm()
@@ -32,6 +34,7 @@ def add():
     return render_template('add.html',form=form)
 
 @app.route('/delete', methods=['GET','POST'])
+@login_required
 def delete():
 
     form = DeleteForm()
