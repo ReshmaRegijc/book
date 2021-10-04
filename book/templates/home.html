@@ -3,7 +3,13 @@
 {% block content %}
 
 <div class="jumbotron">
+    {% if current_user.is_authenticated %}
+    <p>Hi {{ current_user.username }}!</p>
     <p>Select any of above Services</p>
+  {% else %}
+    <p>Please login or register!</p>
+  {% endif %}
+    
 
 </div>
 

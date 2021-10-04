@@ -12,6 +12,11 @@ import os
 def index():
     return render_template('home.html')
 
+@app.route('/welcome')
+@login_required
+def welcome_user():
+    return render_template('home.html')
+
 
 @app.route('/add', methods=['GET','POST'])
 @login_required
@@ -80,7 +85,7 @@ def login():
             next = request.args.get('next')
 
             if next == None or not next[0]=='/':
-                next = url_for('index')
+                next = url_for('welcome_user')
 
             return redirect(next)
 
