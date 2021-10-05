@@ -30,5 +30,4 @@ def test_User():
 
     db.session.delete(new_user)
     db.session.commit()
-
     assert (1==1)

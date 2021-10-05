@@ -21,6 +21,9 @@ class Book(db.Model):
     def __repr__(self):
         return (f"{self.id} Name:{self.name}; Author:{self.author}; Price:{self.price}")
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
