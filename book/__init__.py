@@ -39,8 +39,6 @@ db = SQLAlchemy(app)
 Migrate(app,db)
 
 
-# We can now pass in our app to the login manager
-login_manager.init_app(app)
 
-# Tell users what view to go to when they need to login.
+login_manager.init_app(app)
 login_manager.login_view = "login"
