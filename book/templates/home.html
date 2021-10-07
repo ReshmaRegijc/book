@@ -2,15 +2,17 @@
 
 {% block content %}
 
-<div class="jumbotron">
     {% if current_user.is_authenticated %}
     <p>Hi {{ current_user.username }}!</p>
-    <p>Select any of above Services</p>
-  {% else %}
-    <p>Please login or register!</p>
   {% endif %}
-    
+  <div class="jumbotron">
+    <ul>
+        <h2>Library</h2>
+        {% for book in books %}
+        <li>Book Id: {{book.id}} <br> {{book}}</li>
+        {% endfor %}
+    </ul>
 
-</div>
+
 
 {% endblock %}

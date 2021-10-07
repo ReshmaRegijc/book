@@ -9,18 +9,12 @@
     </head>
     <body>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{{url_for('index')}}">Book Store</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
+        <nav class="navbar navbar-light bg-light ">
+            <a class="navbar-brand" href="{{url_for('index')}}"><p style="font-family:Verdana">Book Store</p></a>
+        
+              <ul class="nav justify-content-end">
                 <li class="nav-item active">
                   <a class="nav-link" href="{{url_for('index')}}">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('list') }}">Library</a>
                 </li>
                 {% if current_user.is_authenticated  %}
                 <li class="nav-item">
@@ -44,13 +38,21 @@
 
                 {% endif %}
               </ul>
+            </nav>
+       
+
+          <div class="container">
+            <div class="row">
+              <div class="col-sm">
+              </div>
+              <div class=".col-xl-">
+                <h1>Welcome To Used Books Store</h1>
+              </div>
+              <div class="col-sm">
+              </div>
             </div>
-          </nav>
+          </div>
 
-        <div class="jumbotron">
-            <h1>Welcome To Used Books Store</h1>
-
-        </div>
 
         {% block content %}
 
@@ -64,3 +66,4 @@
 
     </body>
 </html>
+

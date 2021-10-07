@@ -6,15 +6,32 @@ from book.forms import *
 from flask import render_template, redirect,url_for, request, flash
 import os
 
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = '1'
+os.environ["OAUTHLIB_RELAX_TOKEN_SCOPE"] = '1'
+
+
+blueprint = make_google_blueprint(
+    client_id="######.apps.googleusercontent.com",
+    client_secret="####",
+    # reprompt_consent=True,
+    offline=True,
+    scope=["profile", "email"]
+)
+app.register_blueprint(blueprint, url_prefix="/login")
+
+
 
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    books = Book.query.all()
+    return render_template('home.html',books=books)
 
 @app.route('/welcome')
-@login_required
 def welcome_user():
+    resp = google.get("/oauth2/v2/userinfo")
+    assert resp.ok, resp.text
+    email=resp.json()["email"]
     return render_template('home.html')
 
 
@@ -34,7 +51,7 @@ def add():
         db.session.add(new_book)
         db.session.commit()
 
-        return redirect(url_for('list'))
+        return redirect(url_for('index'))
     
     return render_template('add.html',form=form)
 
@@ -52,15 +69,9 @@ def delete():
         db.session.delete(buy_book)
         db.session.commit()
 
-        return redirect(url_for('list'))
+        return redirect(url_for('index'))
 
     return render_template('delete.html',form=form)
-
-
-@app.route('/list')
-def list():
-    books = Book.query.all()
-    return render_template('list.html',books=books)
 
 
 @app.route('/logout')
@@ -70,7 +81,7 @@ def logout():
     flash('You logged out!')
     return redirect(url_for('index'))
 
-@app.route('/login', methods= ['GET','POST'])
+"""@app.route('/login', methods= ['GET','POST'])
 def login():
 
     form = LoginForm()
@@ -104,10 +115,18 @@ def register():
         db.session.commit()
         flash('Thanks for Registering! Now you can login!')
         return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form)"""
 
+@app.route("/login/google")
+def login():
+    if not google.authorized:
+        return render_template(url_for("google.login"))
 
+    resp = google.get("/oauth2/v2/userinfo")
+    assert resp.ok, resp.text
+    email=resp.json()["email"]
 
+    return render_template("welcome.html",email=email)
 
 
 

@@ -19,7 +19,7 @@ class Book(db.Model):
         self.price = price
 
     def __repr__(self):
-        return (f"{self.id} Name:{self.name}; Author:{self.author}; Price:{self.price}")
+        return (f"Name:{self.name}; Author:{self.author}; Price:{self.price}")
 
 @login_manager.user_loader
 def load_user(user_id):
