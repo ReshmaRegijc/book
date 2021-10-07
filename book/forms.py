@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, PasswordField,  SubmitField
 from wtforms.validators import DataRequired, EqualTo, Email
 from wtforms import ValidationError
-from book.models import User
+
 
 class AddForm(FlaskForm):
 
@@ -15,7 +15,7 @@ class DeleteForm(FlaskForm):
     id = IntegerField("Enter book id")
     submit = SubmitField("Submit")
 
-class RegistrationForm(FlaskForm):
+"""class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),Email()])
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(),EqualTo('confirm_password', message='Passwords must match')])
@@ -35,4 +35,4 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+    submit = SubmitField('Login')"""

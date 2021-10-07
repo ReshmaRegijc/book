@@ -1,25 +1,11 @@
-from flask_login.utils import login_required, login_user, logout_user
+
 from book import app
 from book import db
-from book.models import Book, User
+from book.models import Book
 from book.forms import *
 from flask import render_template, redirect,url_for, request, flash
+from flask_dance.contrib.google import make_google_blueprint, google
 import os
-
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = '1'
-os.environ["OAUTHLIB_RELAX_TOKEN_SCOPE"] = '1'
-
-
-blueprint = make_google_blueprint(
-    client_id="######.apps.googleusercontent.com",
-    client_secret="####",
-    # reprompt_consent=True,
-    offline=True,
-    scope=["profile", "email"]
-)
-app.register_blueprint(blueprint, url_prefix="/login")
-
-
 
 
 @app.route('/')
@@ -36,7 +22,6 @@ def welcome_user():
 
 
 @app.route('/add', methods=['GET','POST'])
-@login_required
 def add():
 
     form = AddForm()
@@ -56,7 +41,6 @@ def add():
     return render_template('add.html',form=form)
 
 @app.route('/delete', methods=['GET','POST'])
-@login_required
 def delete():
 
     form = DeleteForm()
@@ -74,12 +58,11 @@ def delete():
     return render_template('delete.html',form=form)
 
 
-@app.route('/logout')
-@login_required
+"""@app.route('/logout')
 def logout():
     logout_user()
     flash('You logged out!')
-    return redirect(url_for('index'))
+    return redirect(url_for('index'))"""
 
 """@app.route('/login', methods= ['GET','POST'])
 def login():
@@ -126,7 +109,7 @@ def login():
     assert resp.ok, resp.text
     email=resp.json()["email"]
 
-    return render_template("welcome.html",email=email)
+    return render_template("home.html",email=email)
 
 
 
