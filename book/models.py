@@ -1,4 +1,4 @@
-from book import db
+from book import db,login_manager
 
 
 
@@ -19,9 +19,9 @@ class Book(db.Model):
     def __repr__(self):
         return (f"Name:{self.name}; Author:{self.author}; Price:{self.price}")
 
-"""@login_manager.user_loader
+@login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)"""
+    return Book.query.get(user_id)
 
 """class User(db.Model, UserMixin):
     __tablename__ = 'users'

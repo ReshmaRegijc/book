@@ -6,6 +6,9 @@ from book.forms import *
 from flask import render_template, redirect,url_for, request, flash
 from flask_dance.contrib.google import make_google_blueprint, google
 import os
+from flask_login import logout_user
+
+from book import blueprint
 
 
 @app.route('/')
@@ -58,6 +61,34 @@ def delete():
     return render_template('delete.html',form=form)
 
 
+
+@app.route("/login/google")
+def login():
+    if not google.authorized:
+        return render_template(url_for("google.login"))
+
+    resp = google.get("/oauth2/v2/userinfo")
+    assert resp.ok, resp.text
+    email=resp.json()["email"]
+
+    return render_template("home.html",email=email)
+
+@app.route("/logout")
+def logout():
+    flash('You logged out!')
+    token = blueprint.token["access_token"]
+    resp = google.post(
+        "https://accounts.google.com/o/oauth2/revoke",
+        params={"token": token},
+        headers={"Content-Type": "application/x-www-form-urlencoded"}
+    )
+    assert resp.ok, resp.text
+    logout_user()        # Delete Flask-Login's session cookie
+    del blueprint.token  # Delete OAuth token from storage
+
+    return redirect(url_for('index'))
+
+
 """@app.route('/logout')
 def logout():
     logout_user()
@@ -100,16 +131,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)"""
 
-@app.route("/login/google")
-def login():
-    if not google.authorized:
-        return render_template(url_for("google.login"))
-
-    resp = google.get("/oauth2/v2/userinfo")
-    assert resp.ok, resp.text
-    email=resp.json()["email"]
-
-    return render_template("home.html",email=email)
 
 
 
@@ -118,3 +139,5 @@ if __name__=='__main__':
     #port = int(os.environ.get('PORT', 5000))
     #,host="0.0.0.0", port = port
     app.run(debug=True)
+
+
