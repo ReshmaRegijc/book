@@ -14,6 +14,7 @@ from book import blueprint
 @app.route('/')
 def index():
     books = Book.query.all()
+    #,books=books
     return render_template('home.html',books=books)
 
 @app.route('/welcome')
@@ -136,8 +137,8 @@ def register():
 
 
 if __name__=='__main__':
-    #port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5000))
     #,host="0.0.0.0", port = port
-    app.run(debug=True)
+    app.run(debug=True,host="0.0.0.0", port = port)
 
 
