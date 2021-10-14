@@ -1,0 +1,14 @@
+
+
+docker pull postgres
+docker run --name book-postgres -p 5432:5432 -e POSTGRES_PASSWORD=root -d postgres
+
+docker pull dpage/pgadmin4
+docker run -p 80:80 -e 'PGADMIN_DEFAULT_EMAIL=user@domain.local' -e 'PGADMIN_DEFAULT_PASSWORD=root' --name pgadmin-book -d dpage/pgadmin4
+
+docker inspect book-postgres -f "{{json .NetworkSettings.Networks }}"
+
+
+sudo service postgresql stop
+sudo service apache2 stop
+docker rmi $(docker images -q)
